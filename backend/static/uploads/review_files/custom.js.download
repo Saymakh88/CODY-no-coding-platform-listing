@@ -1,0 +1,411 @@
+/*
+function getCookie(a) {
+    var b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
+    return b ? b.pop() : '';
+}
+
+(function () {
+    var cookieminutes = 30;
+    var targetdomain = "wix.com";
+    var params = new URLSearchParams(window.location.search);
+    var utm_params = [];
+    params.forEach(function(value, key) {
+        if (key.startsWith('utm_') || key.startsWith('experiment')) {
+            if (key=='utm_medium'){
+                utm_params.push(key+'=bypass-'+value)
+            } else if (key=='utm_source'){
+                utm_params.push(key+'='+window.location.hostname+'-'+value)
+            }else {
+                utm_params.push(key+'='+value);
+            }
+        }
+    })
+    utm_search = utm_params.join('&amp;');
+
+    if (!utm_search) // get values from backup cookie
+        var utm_search = getCookie("utm_bypass");
+
+    if (!!utm_search) {
+        // cookie backup for reload
+        var d = new Date();
+        d.setTime(d.getTime() + (cookieminutes * 60 * 1000)); // cookie backup
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = "utm_bypass" + "=" + utm_search + ";" + expires + ";path=/";
+
+        // links update
+        document.querySelectorAll('a[href]').forEach(function (ele, idx) {
+            if ((ele.href.indexOf(targetdomain) !== -1) && (ele.href.indexOf("utm_") == -1)) {
+                ele.href = ele.href + (ele.href.indexOf('?') === -1 ? '?' : '&amp;') + utm_search;
+            }
+        });
+    }
+})();
+
+*/
+
+/*$(function(){
+    // Cache selectors
+    var lastId,
+        topMenu = $(".tab_repeater_container"),
+        //topMenu = $(".tab_item"),
+        topMenuHeight = topMenu.outerHeight()+15,
+        //topMenuHeight = topMenu.outerHeight()+15,
+        // All list items
+        //menuItems = topMenu,
+        menuItems = topMenu.find("[data-ae-url]"),
+        // Anchors corresponding to menu items
+        scrollItems = menuItems.map(function(){
+            let item = $($(this).attr("data-ae-url"));
+            //$(this).addClass('tab_item');
+            //var item = $($(this).attr("href"));
+            if (item.length) { return item; }
+        });
+
+// Bind click handler to menu items
+// so we can get a fancy scroll animation
+    menuItems.click(function(e){
+        let href = $(this).attr("data-ae-url"),
+            //var href = $(this).attr("href"),
+           // offsetTop = href === "#" ? 0 : $(href).offset().top-topMenuHeight+1;
+            offsetTop = href === "#" ? 0 : $(href).offset().top-topMenuHeight+1;
+        //debugger;
+        //console.log("offsetTop on click ="+$(this).scrollTop());
+            //offsetTop2 = href === "#" ? 0 : $(href).position().top-topMenuHeight+1;
+        $('html, body').stop().animate({ scrollTop: offsetTop }, 300);
+        //e.preventDefault();
+    });
+
+// Bind to scroll
+    $(window).scroll(function(){
+        // Get container scroll position
+        var fromTop = $(this).scrollTop()+topMenuHeight-2650;
+
+        //console.log("window="+$(this).scrollTop()+" / topMenuHeight="+($(".tab_repeater_container").outerHeight()+15));
+        // Get id of current scroll item
+        var cur = scrollItems.map(function(){
+            console.log($(this).offset().top+"<"+fromTop);
+            if ($(this).offset().top < fromTop)
+                return this;
+        });
+        // Get the id of the current element
+        cur = cur[cur.length-1];
+        var id = cur && cur.length ? cur[0].id : "";
+        console.log("curID="+id+" / lastId="+lastId);
+
+        if (lastId !== id) {
+            lastId = id;
+            console.log("lastId="+lastId);
+            // Set/remove active class
+            menuItems
+                .removeClass("active")
+                //.parent().removeClass("active")
+                //.end()
+                .filter("[data-ae-url='#"+id+"']").addClass("active");
+            //.end().filter("[href='#"+id+"']").parent().addClass("active");
+        }
+    });
+});
+*/
+jQuery(function ($) {
+// Cache selectors
+
+    //console.log('utm_source_data=');
+    if (typeof utm_source_data !== 'undefined') {
+        //console.log(utm_source_data);
+    }
+    //console.log(script_variables);
+    var lastId,
+        topMenu = $(".tab_repeater_container"),// .sticky_container
+        topMenuHeight = topMenu.outerHeight(),
+        // All list items
+        menuItems = topMenu.find("[data-ae-url]"),
+        // Anchors corresponding to menu items
+        scrollItems = menuItems.map(function () {
+            var item = $($(this).attr("data-ae-url"));
+            console.log($(this).attr("data-ae-url"));
+            if (item.length) {
+                return item;
+            }
+        });
+    //console.log(topMenuHeight);
+// Bind click handler to menu items
+// so we can get a fancy scroll animation
+    /*
+    menuItems.click(function(e){
+
+        e.preventDefault();
+
+        if($(".wix_comparison_popup").length > 0){
+            topPopupHeight = $(".wix_comparison_popup").outerHeight();
+            topMenuHeight = topMenuHeight - topPopupHeight;
+        }
+        console.log('wix_comparison_popup='+$(".wix_comparison_popup").length);
+
+        var href = $(this).data("ae-url");
+        var offsetTop = href === "#" ? 0 : $(href).offset().top - topMenuHeight + 1;//-topMenuHeight+1
+        offsetTop = offsetTop + 300;
+        //console.log('clicked and $(href).offset().top='+$(href).offset().top);
+        //console.log('clicked and topMenuHeight='+topMenuHeight);
+        //console.log('clicked and offsetTop='+offsetTop);
+        window.scrollTo(0, offsetTop);
+        $('html, body').stop().animate({
+            scrollTop: offsetTop
+        }, 300);
+    });
+
+    */
+
+// Bind to scroll
+    $(window).scroll(function () {
+        if (jQuery('.wix_comparison_popup').length > 0) {
+            var windowTop = $(this).scrollTop();
+            if (windowTop < 100) {
+                jQuery('.wix_comparison_popup').hide();
+            } else {
+                if (jQuery('.dialog-lightbox-message').html() != '') {
+                    jQuery('.wix_comparison_popup').show();
+                }
+            }
+            //console.log($(this).offset().top);
+        }
+        if (jQuery('.close_on_scroll_top_popup').length > 0) {
+            var windowTop = $(this).scrollTop();
+            if (windowTop < 100) {
+                jQuery('.close_on_scroll_top_popup').hide();
+            } else {
+                if (jQuery('.dialog-lightbox-message').html() != '') {
+                    jQuery('.close_on_scroll_top_popup').show();
+                }
+            }
+            //console.log($(this).offset().top);
+        }
+
+        ////////////////// START TAB REPEATER FUNCTIONAL //////////////////
+        // Get container scroll position
+        var fromTop = $(this).scrollTop() + 50;//+topMenuHeight
+        //console.log(fromTop);
+
+        // Get id of current scroll item
+        var cur = scrollItems.map(function () {
+            if ($(this).offset().top < fromTop)
+                return this;
+        });
+        // Get the id of the current element
+        cur = cur[cur.length - 1];
+        var id = cur && cur.length ? cur[0].id : "";
+
+        if (lastId !== id) {
+            lastId = id;
+            // Set/remove active class
+            menuItems
+                //.parent()
+                .removeClass("active")
+                //.end()
+                .filter("[data-ae-url='#" + id + "']")
+                //.parent()
+                .addClass("active");
+        }
+        ////////////////// END TAB REPEATER FUNCTIONAL //////////////////
+
+
+    });
+
+
+    $('.showBlock').click(function (e) {
+        $('#' + $(this).find('a').attr('id') + '_container').toggle("fast");
+        e.preventDefault();
+    });
+    $('.hideBlock').click(function (e) {
+        $('#' + $(this).find('a').attr('id') + '_container').toggle("fast");
+        e.preventDefault();
+    });
+    //
+
+    //https://wbt.foxapp.net/comparison/wix-vs-wordpress/?utm_campaign=ma_websitebuildertips_ms_logo_eng^1360096069712491&experiment_id=316055913^brandcrowd^e
+
+
+    /*
+        jQuery(".ae-link-yes").attr('data-ae-url', function(i, h) {
+            if( h.indexOf('#') != -1 ){
+                jQuery(this).addClass('modified_data_ae_url');
+                if(window.location.href.toString()!='' && window.location.href.toString().indexOf('?') != -1 ){
+                    var queryParams = [
+                        'utm_medium', //add or remove query parameters you want to transfer
+                        'utm_source',
+                        'utm_campaign',
+                        'experiment_id'
+                    ]
+                    var collectedQueryParams = [];
+                    for (var queryIndex = 0; queryIndex < queryParams.length; queryIndex++) {
+                        if (getQueryParam(queryParams[queryIndex])) {
+                            collectedQueryParams.push(queryParams[queryIndex] + '=' + getQueryParam(queryParams[queryIndex]))
+                        }
+                    }
+                //if(window.location.search!=''){
+                    var replaced_text = '?'+collectedQueryParams;
+                    //window.location.search=window.location.search.replace(/%5E/g,'^');
+                    ////window.history.replaceState('', '', window.location.search.replace(/%5E/g,'^'));
+                    jQuery(this).attr('data-ae-url',replaced_text+h);
+                }
+
+            }
+        });
+        */
+
+
+    /////////////////////////////////////////////////////////////////
+
+
+    /////////////////////////////////////////////////////////////////
+    //keep parameters on the page
+    initModificationUrl();
+    jQuery("a").attr('href', function (i, h) {
+        if (h.indexOf('wix.com') != -1) {
+            jQuery(this).addClass('modified_href');
+            if (window.location.search != '') {
+                var replaced_text = window.location.search.replace(/%5E/g, '^');
+                //window.location.search=window.location.search.replace(/%5E/g,'^');
+                ////window.history.replaceState('', '', window.location.search.replace(/%5E/g,'^'));
+                jQuery(this).attr('href', h + replaced_text);
+            }
+
+        }
+    });
+
+    /*
+    * var url = window.location.href.split('?');
+	if(1 in url) {
+		var href = $('.menu a, .wrap_slide a, .btn_full a, .btn_large a, .logo_box a, .btn_def a');
+		$.each( href, function( key, value ) {
+			main_href = $(value).attr('href');
+			$(value).attr('href', main_href+'?'+url[1]);
+		});
+	}
+    * */
+
+});
+
+function remove_hash_from_url() {
+    var uri = window.location.toString();
+    if (uri.indexOf('?') != -1 && uri.indexOf('#') != -1) {//detect if we have both in url
+        if (uri.indexOf('#') < uri.indexOf('?')) {
+            //window.location.href =
+            if (uri.indexOf("#") > 0) {
+                var clean_uri_hash = uri.slice(uri.indexOf("#"), uri.indexOf("?"));
+                var clean_uri = uri.replace(clean_uri_hash, '');
+                var new_uri = clean_uri + clean_uri_hash;
+                //console.log('cleaned url');
+                //console.log('document.title=' + document.title);
+                //console.log('clean_uri=' + clean_uri);
+               // console.log('clean_uri_hash=' + clean_uri_hash);
+
+                //window.history.replaceState({}, document.title, new_uri);
+                window.history.pushState({}, document.title, new_uri);
+                //keepGetParametersOnLinks();
+            }
+        }
+        //urlToDecorate = startUrl + '?';
+    }
+
+}
+
+function initModificationUrl() {
+    remove_hash_from_url();
+    keepGetParametersOnLinks();
+}
+
+function keepGetParametersOnLinks() {
+    var currentUrl = window.location.href.toString();
+    /////////////////////////////////////////////////////////////////
+    //keep parameters on the page
+    var domainsToDecorate = [
+            'websitebuildertips.com', //add or remove domains (without https or trailing slash)
+        ],
+        queryParams = [
+            'utm_medium', //add or remove query parameters you want to transfer
+            'utm_source',
+            'utm_campaign',
+            'experiment_id'
+        ]
+    // do not edit anything below this line
+    var links = document.querySelectorAll('a');
+
+// check if links contain domain from the domainsToDecorate array and then decorates
+    for (var linkIndex = 0; linkIndex < links.length; linkIndex++) {
+        for (var domainIndex = 0; domainIndex < domainsToDecorate.length; domainIndex++) {
+            //console.log(links[linkIndex].href+' /  '+links[linkIndex].href.indexOf("#") +'===' + (links[linkIndex].href.length - 1 ));
+            if (links[linkIndex].href.indexOf(domainsToDecorate[domainIndex]) > -1 && links[linkIndex].href.indexOf("#") != (links[linkIndex].href.length - 1 )) {//
+            //if (links[linkIndex].href.indexOf(domainsToDecorate[domainIndex]) > -1 && links[linkIndex].href.indexOf("#") === -1) {//
+                links[linkIndex].href = decorateUrl(links[linkIndex].href);
+            }
+        }
+    }
+
+    function decorateUrl(urlToDecorate) {
+        startUrl = urlToDecorate;
+        urlToDecorate = '';
+        currentUrl = window.location.href.toString();
+        //console.log('urlToDecorate='+urlToDecorate);
+        //console.log('urlToDecorate.includes(\'wp-admin\')='+urlToDecorate.includes('wp-admin'));
+
+        if ( startUrl.indexOf("?") > 0) {
+            return startUrl;
+        }
+
+        if ( startUrl.substr(urlToDecorate.length - 1) === '?' ) {
+            return startUrl;
+        }
+
+        if(startUrl.includes('wp-admin')){
+            return startUrl;
+        }
+
+        if(startUrl.includes('wp-login')){
+            return startUrl;
+        }
+
+        if(startUrl.includes('search.google.com')){
+            return startUrl;
+        }
+
+
+        //urlToDecorate = (urlToDecorate.indexOf('?') === -1) ? urlToDecorate + '?' : urlToDecorate + '&';
+        if (currentUrl.indexOf('?') != -1) {
+            urlToDecorate = startUrl + '?';
+        }
+        //if(currentUrl.indexOf('&') != -1){
+        //    urlToDecorate = startUrl + '&';
+        //}
+        if (currentUrl.indexOf('?') != -1 && currentUrl.indexOf('#') != -1) {
+            urlToDecorate = startUrl + '?';
+        }
+
+        var collectedQueryParams = [];
+        for (var queryIndex = 0; queryIndex < queryParams.length; queryIndex++) {
+            if (getQueryParam(queryParams[queryIndex])) {
+                collectedQueryParams.push(queryParams[queryIndex] + '=' + getQueryParam(queryParams[queryIndex]))
+            }
+        }
+
+        if (collectedQueryParams.length < 1) {
+            //urlToDecorate='';
+            urlToDecorate = startUrl;
+        }
+
+        return urlToDecorate + collectedQueryParams.join('&');
+    }
+
+    // borrowed from https://stackoverflow.com/questions/831030/
+    // a function that retrieves the value of a query parameter
+
+    /////////////////////////////////////////////////////////////////
+}
+
+function getQueryParam(name) {
+    //currentUrl = window.location.href.toString();
+    currentUrl = window.location.search;
+    if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(currentUrl))
+        return decodeURIComponent(name[1]);
+}
+
+
