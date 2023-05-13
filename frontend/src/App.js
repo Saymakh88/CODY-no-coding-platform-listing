@@ -60,7 +60,8 @@ function App() {
               <Route element={<Home />} path="home" />
               <Route element={<Footer />} path="footer" />
               <Route element={<AddReview />} path="addreview" />
-              <Route element={<Compare />} path="compare" />
+              {/* <Route element={<Compare />} path="compare" /> */}
+              <Route element={<Comparepla />} path="compare" />
               <Route element={<UserDashboard />} path="userdashboard" />
               <Route element={<BrowsePlatform />} path="browseplatform" />
               <Route element={<BrowseCompare />} path="browsecompare" />
