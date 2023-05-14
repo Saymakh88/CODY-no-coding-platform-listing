@@ -19,7 +19,7 @@ const ViewPlatform = () => {
   const { id } = useParams();
   const getdataformBackEnd = () => {
     setLoading(true);
-    fetch(url + "/platform/getbyid/" + id)
+    fetch(url + "platform/getbyid/" + id)
       .then((response) => {
         if (response.status === 200) {
           return response.json();
@@ -39,7 +39,7 @@ const ViewPlatform = () => {
 
   const getReviewdatafromBackend = () => {
     setReviewLoading(true);
-    fetch(url + "/review/getbyplatform/" + id)
+    fetch(url + "review/getbyplatform/" + id)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -71,7 +71,7 @@ const ViewPlatform = () => {
   const submitRatingReview = async (values, { resetForm }) => {
     values.user = currentUser._id;
     console.log(values);
-    const response = await fetch(url + "/reviewrating/add", {
+    const response = await fetch(url + "reviewrating/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -86,6 +86,11 @@ const Header = (props) => {
               </NavLink>
             </li>
             <li class="nav-item">
+              <NavLink className="nav-link" to="/main/comparison">
+                Compare No-Code Platforms
+              </NavLink>
+            </li>
+            <li class="nav-item">
               <NavLink className="nav-link" to="/main/login">
                 Login
               </NavLink>

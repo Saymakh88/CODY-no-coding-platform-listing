@@ -63,14 +63,14 @@ function App() {
               <Route element={<Footer />} path="footer" />
               <Route element={<AddReview />} path="addreview" />
               {/* <Route element={<Compare />} path="compare" /> */}
-              <Route element={<ComparePlatform />} path="compare" />
+              <Route element={<ComparePlatform />} path="comparison" />
               <Route element={<UserDashboard />} path="userdashboard" />
               <Route element={<BrowsePlatform />} path="browseplatform" />
               <Route element={<BrowseCompare />} path="browsecompare" />
               <Route element={<BrowseReview />} path="browsereview" />
               <Route element={<ViewPlatform />} path="platformdetail/:id" />
               <Route element={<CategoryDetail />} path="categorydetail/:id" />
-              <Route element={<Comparison />} path="comparison" />
+              {/* <Route element={<Comparison />} path="comparison" /> */}
             </Route>
             <Route
               element={

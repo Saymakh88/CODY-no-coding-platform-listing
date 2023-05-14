@@ -4,22 +4,19 @@ import app_config from '../../config'
 import { motion } from "framer-motion";
 // import Reloader from "./Reloader";
 
-
-
-
 const ComparePlatform = () => {
 
     const [name, setName] = useState("");
-    const url = app_config.url;
+    const url = app_config.api_url;
     const [platformList, setPlatformList] = useState([]);
     const [filterList, setFilterList] = useState([])
     const [nameList, setNameList] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     const [count, setCount] = useState(0);
 
     const getDataFromBackend = (cb) => {
         setIsLoading(true)
-        fetch(url + '/platform/showall').then(res => res.json())
+        fetch(url + 'platform/getall').then(res => res.json())
             .then(data => {
                 cb(data);
                 setIsLoading(false)
@@ -93,18 +90,23 @@ const ComparePlatform = () => {
 
     const displayData = () => {
 
-        return <div className='container-fluid h-max w-fit mx-5 mt-10'>
-            <div className='grid grid-cols-3 gap-5'>
-                {filterList.map(({ _id, title, describe, plan, offer, category },) => (
-                    <div className='bg-white rounded-xl px-5 py-2 shadow-xl hover:cursor-pointer' key={_id}>
-                        <div className='flex justify-end'>
-                            <button className='focus:outline-none' onClick={() => removeItem(_id)}><i className="fas fa-times text-red-500"></i></button>
+        return <div className='container-fluid mt-5'>
+            <div className='row'>
+                {filterList.map(({ _id, title, heroimage, description, plan, offer, category },) => (
+                    <div className='col-md-4 mb-4' key={_id}>
+                        <div className='card'>
+                        <div className='card-body'>
+                        <div className=''>
+                            <button className='btn btn-outline-danger' onClick={() => removeItem(_id)}><i className="fas fa-times text-red-500"></i></button>
                         </div>
+                        <img src={url+'/'+heroimage} />
                         <div className='text-lg my-2  hover:transition hover:duration-500 hover:translate-x-2'><strong className='text-gray-800 text-xl'>Name:</strong> &nbsp;{title}</div>
-                        <div className='my-2 '><strong className='text-gray-800'>Description:</strong> &nbsp;{describe}</div>
+                        <div className='my-2 '><strong className='text-gray-800'>Description:</strong> &nbsp;{description}</div>
                         <div className='my-2'><strong className='text-gray-800'>Plan:</strong> &nbsp;{plan}</div>
                         <div className='my-2'><strong className='text-gray-800'>Offer:</strong> &nbsp;{offer}</div>
                         <div className='my-2'><strong className='text-gray-800'>Category:</strong> &nbsp;{category}</div>
+                    </div>
+                    </div>
                     </div>
                 ))}
             </div>
@@ -118,35 +120,47 @@ const ComparePlatform = () => {
 
 
     return (
-        <div className='container-fluid p-0 m-0'>
-            <div className='flex justify-center'>
-                <input type="search" list="nameList" className="w-1/3 mt-2 py-2 placeholder:text-stone-500 active:outline-none transition-all  rounded-full shadow-md shadow-slate-400  pl-5" value={name} onChange={e => setName(e.target.value)} placeholder='Search Here' accept='text'
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter')
-                            searchByName();
-                    }}
-                />
-                <i class="fa fa-search text-2xl mt-3 ml-2" aria-hidden="true" onClick={searchByName}></i>
-                <motion.div whileTap={{ scale: 0.8 }} className="bg-gray-50 px-2 ml-8 mt-2 rounded-md  shadow-md shadow-slate-500 flex flex-col justify-center items-center">
-                    <button className=" text-red-500 text-md `" onClick={removeAll}><i className="fas fa-thin fa-trash"></i></button>
-                </motion.div>
-                <datalist id="nameList">
-                    {nameList.map((item) => (
-                        <option value={item} />
-                    ))}
-                </datalist>
-            </div>
-            <div className='flex w-full' >
-                {
-                    !isLoading ?
-                        <div className='mx-auto'>
-                            {displayData()}
-                        </div>
-                        :
-                        <div className='mx-auto'>
-                            {/* <Reloader /> */}
-                        </div>
-                }
+        <div>
+            <div className='col-md-10 mx-auto py-5'>
+                <div className=''>
+
+                    <div className=''>
+
+                        <input type="search" list="nameList" className="form-control" value={name} onChange={e => setName(e.target.value)} placeholder='Search Here' accept='text'
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter')
+                                    searchByName();
+                            }}
+                        />
+                    </div>
+                    <div className="d-flex">
+
+                    <button className='btn btn-primary' onClick={searchByName}>
+
+                        <i class="fa fa-search text-2xl" aria-hidden="true"></i>
+                    </button>
+                    <button className="btn btn-danger ms-3" onClick={removeAll}><i className="fas fa-thin fa-trash"></i> Remove All</button>
+                    </div>
+                    
+                    <datalist id="nameList">
+                        {nameList.map((item) => (
+                            <option value={item} />
+                        ))}
+                    </datalist>
+                </div>
+
+                <div className='flex w-full' >
+                    {
+                        !isLoading ?
+                            <div className='mx-auto'>
+                                {displayData()}
+                            </div>
+                            :
+                            <div className='mx-auto'>
+                                {/* <Reloader /> */}
+                            </div>
+                    }
+                </div>
             </div>
         </div>
     )
