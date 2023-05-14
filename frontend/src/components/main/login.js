@@ -3,11 +3,14 @@ import app_config from "../../config";
 import Swal from "sweetalert2";
 import { Formik } from "formik";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   // const [signupOpen,setOpenSignup] =useState(false);
 
   const url = app_config.api_url;
+
+  const navigate = useNavigate();
 
   const loginform = {
     email: "",
@@ -30,8 +33,7 @@ const Login = () => {
             });
 
             sessionStorage.setItem("user", JSON.stringify(data));
-            window.location.replace("./userdashboard");
-
+            navigate('/main/home')
             return;
           }
         }

@@ -53,8 +53,8 @@ router.delete("/delete/:id", (req, res) => {
     });
 });
 
-router.get("/getbyitem/:id", (req, res) => {
-  Model.find({})
+router.get("/getbyplatform/:id", (req, res) => {
+  Model.find({platform : req.params.id})
     .then((data) => {
       console.log("data fetched");
       res.status(200).json(data);

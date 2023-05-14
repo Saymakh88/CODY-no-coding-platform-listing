@@ -8,7 +8,7 @@ const schema = new Schema({
     password: String,
     isAdmin: { type: Boolean, default: false },
     createdAt: { type: Date, default: new Date() }
-})
+});
 
 const model = mongoose.model('admin', schema);
 

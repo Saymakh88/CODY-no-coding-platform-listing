@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import app_config from "../../config";
-import "./viewplatformcss.css";
+// import "./viewplatformcss.css";
 import { FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -15,7 +15,7 @@ const ViewPlatform = () => {
     JSON.parse(sessionStorage.getItem("user"))
   );
   const [loading, setLoading] = useState(false);
-  const url = app_config.url;
+  const url = app_config.api_url;
   const { id } = useParams();
   const getdataformBackEnd = () => {
     setLoading(true);
@@ -39,7 +39,7 @@ const ViewPlatform = () => {
 
   const getReviewdatafromBackend = () => {
     setReviewLoading(true);
-    fetch(url + "/reviewrating/getbyplatform/" + id)
+    fetch(url + "/review/getbyplatform/" + id)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

@@ -25,7 +25,7 @@ const Comparison = () => {
         });
       }
     });
-    setPlatformArray(JSON.parse(sessionStorage.getItem("platforms")));
+    setPlatformArray(JSON.parse(sessionStorage.getItem("platforms"))); 
   };
 
   const [filter, setFilter] = useState("");

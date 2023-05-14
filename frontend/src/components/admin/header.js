@@ -95,11 +95,7 @@ const Header = (props) => {
                 Manage Platforms Data
               </NavLink>
             </li>
-            <li class="nav-item">
-              <NavLink className="nav-link" to="/admin/dashboard">
-                Admin
-              </NavLink>
-            </li>
+            
           </ul>
         </div>
 

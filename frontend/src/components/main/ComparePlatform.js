@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import app_config from '../../config'
 import { motion } from "framer-motion";
-import Reloader from "./Reloader";
+// import Reloader from "./Reloader";
 
 
 
@@ -144,7 +144,7 @@ const ComparePlatform = () => {
                         </div>
                         :
                         <div className='mx-auto'>
-                            <Reloader />
+                            {/* <Reloader /> */}
                         </div>
                 }
             </div>

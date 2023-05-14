@@ -28,6 +28,8 @@ import Comparison from "./components/main/comparison";
 import AdminLogin from "./components/main/adminLogin";
 import AdminAuthorisor from "./components/adminAuth";
 import Authorisor from "./components/authenticator";
+import ComparePlatform from "./components/main/ComparePlatform";
+import ViewPlatform from "./components/main/ViewPlatform";
 
 function App() {
   return (
@@ -61,12 +63,12 @@ function App() {
               <Route element={<Footer />} path="footer" />
               <Route element={<AddReview />} path="addreview" />
               {/* <Route element={<Compare />} path="compare" /> */}
-              <Route element={<Comparepla />} path="compare" />
+              <Route element={<ComparePlatform />} path="compare" />
               <Route element={<UserDashboard />} path="userdashboard" />
               <Route element={<BrowsePlatform />} path="browseplatform" />
               <Route element={<BrowseCompare />} path="browsecompare" />
               <Route element={<BrowseReview />} path="browsereview" />
-              <Route element={<PlatformDetail />} path="platformdetail/:id" />
+              <Route element={<ViewPlatform />} path="platformdetail/:id" />
               <Route element={<CategoryDetail />} path="categorydetail/:id" />
               <Route element={<Comparison />} path="comparison" />
             </Route>
