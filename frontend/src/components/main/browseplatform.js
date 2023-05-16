@@ -7,6 +7,7 @@ import "../../stylesheets/browseplatform.css";
 const BrowseSlides = () => {
   const [datalist, setDatalist] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [masterList, setMasterList] = useState([]);
 
   const url = app_config.api_url;
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const BrowseSlides = () => {
         res.json().then((data) => {
           console.log(data);
           setDatalist(data);
+          setMasterList(data);
           setLoading(false);
         });
       }
@@ -85,7 +87,10 @@ const BrowseSlides = () => {
     }
   };
 
-  const applyfilter = () => {};
+  const applyfilter = (e) => {
+    let val = e.target.value;
+    setDatalist(masterList.filter(platform => platform.title.toLowerCase().includes(val.toLowerCase())));
+  };
 
   return (
     <div>
@@ -103,9 +108,9 @@ const BrowseSlides = () => {
             <div className="input-group mt-5">
               <input
                 className="form-control"
-                value={filter}
+                
                 label="Search Here"
-                onChange={(e) => setFilter(e.target.value)}
+                onChange={(e) => applyfilter(e.target.value)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
